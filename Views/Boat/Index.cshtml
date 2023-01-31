@@ -1,0 +1,47 @@
+﻿@using Lab8.Models
+@model IEnumerable<boat>
+@{
+    ViewBag.Title = "Boats";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+</head>
+<body>
+    <div style="margin-top:50px" class="row">
+        <div class="col-md-12">
+            <input type="button" class="btn btn-primary" value="Create Boat" onclick="location.href='@Url.Action("Create", "Boat")'" />
+        </div>
+    </div>
+    <div style="margin-top:50px" class="row">
+        <div class="col-md-12">
+            <table id="table_boats" class="display">
+                <thead>
+                    <tr>
+                        <th>Boat Name</th>
+                        <th>Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.name)
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "Boat", new { id=item.boatid })'" />
+                                <input type="button" class="btn btn-danger" value="Delete" onclick="location.href='@Url.Action("Delete", "Boat",new { id=item.boatid })'" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#table_boats').DataTable();
+    });
+</script>

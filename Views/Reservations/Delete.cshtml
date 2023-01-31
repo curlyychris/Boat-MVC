@@ -1,0 +1,26 @@
+﻿@using Lab8.Models
+@model cust_reservations
+@{
+    ViewBag.Title = "Delete Customer Reservation";
+}
+<h2>Delete</h2>
+<h3>Are you sure you want to delete this Customer Reservation?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.res_cust_id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.res_cust_id)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> 
+            @Html.ActionLink("Back to List", "Index", "Reservations")
+        </div>
+    }
+</div>

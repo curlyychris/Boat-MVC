@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="acsc384_dbModelStoreContainer" CdmEntityContainer="acsc384_dbEntities">
+    <EntitySetMapping Name="boats">
+      <EntityTypeMapping TypeName="acsc384_dbModel.boat">
+        <MappingFragment StoreEntitySet="boat">
+          <ScalarProperty Name="boatid" ColumnName="boatid" />
+          <ScalarProperty Name="fkcategoryid" ColumnName="fkcategoryid" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="fkcolourid" ColumnName="fkcolourid" />
+          <ScalarProperty Name="hour_rate" ColumnName="hour_rate" />
+          <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="boat_colour">
+      <EntityTypeMapping TypeName="acsc384_dbModel.boat_colour">
+        <MappingFragment StoreEntitySet="boat_colour">
+          <ScalarProperty Name="colourid" ColumnName="colourid" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="categories">
+      <EntityTypeMapping TypeName="acsc384_dbModel.category">
+        <MappingFragment StoreEntitySet="category">
+          <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cust_reservations">
+      <EntityTypeMapping TypeName="acsc384_dbModel.cust_reservations">
+        <MappingFragment StoreEntitySet="cust_reservations">
+          <ScalarProperty Name="res_cust_id" ColumnName="res_cust_id" />
+          <ScalarProperty Name="fkcustomerid" ColumnName="fkcustomerid" />
+          <ScalarProperty Name="fkbookingid" ColumnName="fkbookingid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="customers">
+      <EntityTypeMapping TypeName="acsc384_dbModel.customer">
+        <MappingFragment StoreEntitySet="customer">
+          <ScalarProperty Name="customerid" ColumnName="customerid" />
+          <ScalarProperty Name="surname" ColumnName="surname" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="licence" ColumnName="licence" />
+          <ScalarProperty Name="passcode" ColumnName="passcode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="reservations">
+      <EntityTypeMapping TypeName="acsc384_dbModel.reservation">
+        <MappingFragment StoreEntitySet="reservation">
+          <ScalarProperty Name="bookingid" ColumnName="bookingid" />
+          <ScalarProperty Name="fkboatid" ColumnName="fkboatid" />
+          <ScalarProperty Name="start_date" ColumnName="start_date" />
+          <ScalarProperty Name="end_date" ColumnName="end_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="acsc384_dbModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="acsc384_dbModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="acsc384_dbModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="acsc384_dbModel.Store.sp_helpdiagramdefinition" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="acsc384_dbModel.Store.sp_helpdiagrams" />
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="acsc384_dbModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="acsc384_dbModel.Store.sp_upgraddiagrams" />
+  </EntityContainerMapping>
+</Mapping>

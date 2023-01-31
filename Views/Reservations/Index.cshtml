@@ -1,0 +1,67 @@
+﻿@using Lab8.Models
+@model IEnumerable<cust_reservations>
+@{
+    ViewBag.Title = "Reservations";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+</head>
+<body>
+    <div style="margin-top:50px" class="row">
+        <div class="col-md-12">
+            <input type="button" class="btn btn-primary" value="Create Reservation" onclick="location.href='@Url.Action("Create","Reservations")'" />
+        </div>
+    </div>
+    <div style="margin-top:50px" class="row">
+        <div class="col-md-12">
+            <table id="table_res" class="display">
+                <thead>
+                    <tr>
+                        <th>Boat Name</th>
+                        <th>Customer Name</th>
+                        <th>Customer Surname</th>
+                        <th>Customer Telephone</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.reservation.boat.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.customer.name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.customer.surname)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.customer.telephone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.reservation.start_date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelitem => item.reservation.end_date)
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "Reservations",new { id=item.res_cust_id })'" />
+                                <input type="button" class="btn btn-danger" value="Delete" onclick="location.href='@Url.Action("Delete", "Reservations", new { id=item.res_cust_id })'" />
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table_res').DataTable();
+        });
+    </script>

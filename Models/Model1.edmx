@@ -1,0 +1,484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="acsc384_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="boat">
+          <Key>
+            <PropertyRef Name="boatid" />
+          </Key>
+          <Property Name="boatid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fkcategoryid" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fkcolourid" Type="int" Nullable="false" />
+          <Property Name="hour_rate" Type="numeric" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="daily_rate" Type="numeric" Precision="4" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="boat_colour">
+          <Key>
+            <PropertyRef Name="colourid" />
+          </Key>
+          <Property Name="colourid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="categoryid" />
+          </Key>
+          <Property Name="categoryid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cust_reservations">
+          <Key>
+            <PropertyRef Name="res_cust_id" />
+          </Key>
+          <Property Name="res_cust_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fkcustomerid" Type="int" Nullable="false" />
+          <Property Name="fkbookingid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customerid" />
+          </Key>
+          <Property Name="customerid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="70" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="telephone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="licence" Type="smallint" Nullable="false" />
+          <Property Name="passcode" Type="nchar" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="reservation">
+          <Key>
+            <PropertyRef Name="bookingid" />
+          </Key>
+          <Property Name="bookingid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fkboatid" Type="int" Nullable="false" />
+          <Property Name="start_date" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="end_date" Type="datetime2" Precision="0" Nullable="false" />
+        </EntityType>
+        <Association Name="boat$fkcategoryid">
+          <End Role="category" Type="Self.category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="boat" Type="Self.boat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="categoryid" />
+            </Principal>
+            <Dependent Role="boat">
+              <PropertyRef Name="fkcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="boat$fkcolourid">
+          <End Role="boat_colour" Type="Self.boat_colour" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="boat" Type="Self.boat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boat_colour">
+              <PropertyRef Name="colourid" />
+            </Principal>
+            <Dependent Role="boat">
+              <PropertyRef Name="fkcolourid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cust_reservations$fkbookingid">
+          <End Role="reservation" Type="Self.reservation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="cust_reservations" Type="Self.cust_reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reservation">
+              <PropertyRef Name="bookingid" />
+            </Principal>
+            <Dependent Role="cust_reservations">
+              <PropertyRef Name="fkbookingid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cust_reservations$fkcustomerid">
+          <End Role="customer" Type="Self.customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="cust_reservations" Type="Self.cust_reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customerid" />
+            </Principal>
+            <Dependent Role="cust_reservations">
+              <PropertyRef Name="fkcustomerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reservation$fkboatid">
+          <End Role="boat" Type="Self.boat" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="reservation" Type="Self.reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boat">
+              <PropertyRef Name="boatid" />
+            </Principal>
+            <Dependent Role="reservation">
+              <PropertyRef Name="fkboatid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="acsc384_dbModelStoreContainer">
+          <EntitySet Name="boat" EntityType="Self.boat" Schema="acsc384_db" store:Type="Tables" />
+          <EntitySet Name="boat_colour" EntityType="Self.boat_colour" Schema="acsc384_db" store:Type="Tables" />
+          <EntitySet Name="category" EntityType="Self.category" Schema="acsc384_db" store:Type="Tables" />
+          <EntitySet Name="cust_reservations" EntityType="Self.cust_reservations" Schema="acsc384_db" store:Type="Tables" />
+          <EntitySet Name="customer" EntityType="Self.customer" Schema="acsc384_db" store:Type="Tables" />
+          <EntitySet Name="reservation" EntityType="Self.reservation" Schema="acsc384_db" store:Type="Tables" />
+          <AssociationSet Name="boat$fkcategoryid" Association="Self.boat$fkcategoryid">
+            <End Role="category" EntitySet="category" />
+            <End Role="boat" EntitySet="boat" />
+          </AssociationSet>
+          <AssociationSet Name="boat$fkcolourid" Association="Self.boat$fkcolourid">
+            <End Role="boat_colour" EntitySet="boat_colour" />
+            <End Role="boat" EntitySet="boat" />
+          </AssociationSet>
+          <AssociationSet Name="cust_reservations$fkbookingid" Association="Self.cust_reservations$fkbookingid">
+            <End Role="reservation" EntitySet="reservation" />
+            <End Role="cust_reservations" EntitySet="cust_reservations" />
+          </AssociationSet>
+          <AssociationSet Name="cust_reservations$fkcustomerid" Association="Self.cust_reservations$fkcustomerid">
+            <End Role="customer" EntitySet="customer" />
+            <End Role="cust_reservations" EntitySet="cust_reservations" />
+          </AssociationSet>
+          <AssociationSet Name="reservation$fkboatid" Association="Self.reservation$fkboatid">
+            <End Role="boat" EntitySet="boat" />
+            <End Role="reservation" EntitySet="reservation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="acsc384_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="boat">
+          <Key>
+            <PropertyRef Name="boatid" />
+          </Key>
+          <Property Name="boatid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fkcategoryid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fkcolourid" Type="Int32" Nullable="false" />
+          <Property Name="hour_rate" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="daily_rate" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+          <NavigationProperty Name="category" Relationship="Self.boat_fkcategoryid" FromRole="boat" ToRole="category" />
+          <NavigationProperty Name="boat_colour" Relationship="Self.boat_fkcolourid" FromRole="boat" ToRole="boat_colour" />
+          <NavigationProperty Name="reservations" Relationship="Self.reservation_fkboatid" FromRole="boat" ToRole="reservation" />
+        </EntityType>
+        <EntityType Name="boat_colour">
+          <Key>
+            <PropertyRef Name="colourid" />
+          </Key>
+          <Property Name="colourid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="boats" Relationship="Self.boat_fkcolourid" FromRole="boat_colour" ToRole="boat" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="categoryid" />
+          </Key>
+          <Property Name="categoryid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="boats" Relationship="Self.boat_fkcategoryid" FromRole="category" ToRole="boat" />
+        </EntityType>
+        <EntityType Name="cust_reservations">
+          <Key>
+            <PropertyRef Name="res_cust_id" />
+          </Key>
+          <Property Name="res_cust_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fkcustomerid" Type="Int32" Nullable="false" />
+          <Property Name="fkbookingid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="reservation" Relationship="Self.cust_reservations_fkbookingid" FromRole="cust_reservations" ToRole="reservation" />
+          <NavigationProperty Name="customer" Relationship="Self.cust_reservations_fkcustomerid" FromRole="cust_reservations" ToRole="customer" />
+        </EntityType>
+        <EntityType Name="customer">
+          <Key>
+            <PropertyRef Name="customerid" />
+          </Key>
+          <Property Name="customerid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="surname" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="licence" Type="Int16" Nullable="false" />
+          <Property Name="passcode" Type="String" MaxLength="32" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="cust_reservations" Relationship="Self.cust_reservations_fkcustomerid" FromRole="customer" ToRole="cust_reservations" />
+        </EntityType>
+        <EntityType Name="reservation">
+          <Key>
+            <PropertyRef Name="bookingid" />
+          </Key>
+          <Property Name="bookingid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fkboatid" Type="Int32" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="boat" Relationship="Self.reservation_fkboatid" FromRole="reservation" ToRole="boat" />
+          <NavigationProperty Name="cust_reservations" Relationship="Self.cust_reservations_fkbookingid" FromRole="reservation" ToRole="cust_reservations" />
+        </EntityType>
+        <Association Name="boat_fkcategoryid">
+          <End Role="category" Type="Self.category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="boat" Type="Self.boat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="categoryid" />
+            </Principal>
+            <Dependent Role="boat">
+              <PropertyRef Name="fkcategoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="boat_fkcolourid">
+          <End Role="boat_colour" Type="Self.boat_colour" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="boat" Type="Self.boat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boat_colour">
+              <PropertyRef Name="colourid" />
+            </Principal>
+            <Dependent Role="boat">
+              <PropertyRef Name="fkcolourid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="reservation_fkboatid">
+          <End Role="boat" Type="Self.boat" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="reservation" Type="Self.reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="boat">
+              <PropertyRef Name="boatid" />
+            </Principal>
+            <Dependent Role="reservation">
+              <PropertyRef Name="fkboatid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cust_reservations_fkbookingid">
+          <End Role="reservation" Type="Self.reservation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="cust_reservations" Type="Self.cust_reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reservation">
+              <PropertyRef Name="bookingid" />
+            </Principal>
+            <Dependent Role="cust_reservations">
+              <PropertyRef Name="fkbookingid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cust_reservations_fkcustomerid">
+          <End Role="customer" Type="Self.customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="cust_reservations" Type="Self.cust_reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customer">
+              <PropertyRef Name="customerid" />
+            </Principal>
+            <Dependent Role="cust_reservations">
+              <PropertyRef Name="fkcustomerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="acsc384_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="boats" EntityType="Self.boat" />
+          <EntitySet Name="boat_colour" EntityType="Self.boat_colour" />
+          <EntitySet Name="categories" EntityType="Self.category" />
+          <EntitySet Name="cust_reservations" EntityType="Self.cust_reservations" />
+          <EntitySet Name="customers" EntityType="Self.customer" />
+          <EntitySet Name="reservations" EntityType="Self.reservation" />
+          <AssociationSet Name="boat_fkcategoryid" Association="Self.boat_fkcategoryid">
+            <End Role="category" EntitySet="categories" />
+            <End Role="boat" EntitySet="boats" />
+          </AssociationSet>
+          <AssociationSet Name="boat_fkcolourid" Association="Self.boat_fkcolourid">
+            <End Role="boat_colour" EntitySet="boat_colour" />
+            <End Role="boat" EntitySet="boats" />
+          </AssociationSet>
+          <AssociationSet Name="reservation_fkboatid" Association="Self.reservation_fkboatid">
+            <End Role="boat" EntitySet="boats" />
+            <End Role="reservation" EntitySet="reservations" />
+          </AssociationSet>
+          <AssociationSet Name="cust_reservations_fkbookingid" Association="Self.cust_reservations_fkbookingid">
+            <End Role="reservation" EntitySet="reservations" />
+            <End Role="cust_reservations" EntitySet="cust_reservations" />
+          </AssociationSet>
+          <AssociationSet Name="cust_reservations_fkcustomerid" Association="Self.cust_reservations_fkcustomerid">
+            <End Role="customer" EntitySet="customers" />
+            <End Role="cust_reservations" EntitySet="cust_reservations" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="acsc384_dbModelStoreContainer" CdmEntityContainer="acsc384_dbEntities">
+          <EntitySetMapping Name="boats">
+            <EntityTypeMapping TypeName="acsc384_dbModel.boat">
+              <MappingFragment StoreEntitySet="boat">
+                <ScalarProperty Name="boatid" ColumnName="boatid" />
+                <ScalarProperty Name="fkcategoryid" ColumnName="fkcategoryid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="fkcolourid" ColumnName="fkcolourid" />
+                <ScalarProperty Name="hour_rate" ColumnName="hour_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="boat_colour">
+            <EntityTypeMapping TypeName="acsc384_dbModel.boat_colour">
+              <MappingFragment StoreEntitySet="boat_colour">
+                <ScalarProperty Name="colourid" ColumnName="colourid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="acsc384_dbModel.category">
+              <MappingFragment StoreEntitySet="category">
+                <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cust_reservations">
+            <EntityTypeMapping TypeName="acsc384_dbModel.cust_reservations">
+              <MappingFragment StoreEntitySet="cust_reservations">
+                <ScalarProperty Name="res_cust_id" ColumnName="res_cust_id" />
+                <ScalarProperty Name="fkcustomerid" ColumnName="fkcustomerid" />
+                <ScalarProperty Name="fkbookingid" ColumnName="fkbookingid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="acsc384_dbModel.customer">
+              <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="customerid" ColumnName="customerid" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="licence" ColumnName="licence" />
+                <ScalarProperty Name="passcode" ColumnName="passcode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reservations">
+            <EntityTypeMapping TypeName="acsc384_dbModel.reservation">
+              <MappingFragment StoreEntitySet="reservation">
+                <ScalarProperty Name="bookingid" ColumnName="bookingid" />
+                <ScalarProperty Name="fkboatid" ColumnName="fkboatid" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="acsc384_dbModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="acsc384_dbModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="acsc384_dbModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="acsc384_dbModel.Store.sp_helpdiagramdefinition" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="acsc384_dbModel.Store.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="acsc384_dbModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="acsc384_dbModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

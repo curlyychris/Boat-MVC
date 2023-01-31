@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4373f1ccf56145d09ef2738e8527f18d" Name="Diagram1">
+        <EntityTypeShape EntityType="acsc384_dbModel.boat" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="acsc384_dbModel.boat_colour" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="acsc384_dbModel.category" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="acsc384_dbModel.cust_reservations" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="acsc384_dbModel.customer" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="acsc384_dbModel.reservation" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="acsc384_dbModel.boat_fkcategoryid" ManuallyRouted="false" />
+        <AssociationConnector Association="acsc384_dbModel.boat_fkcolourid" ManuallyRouted="false" />
+        <AssociationConnector Association="acsc384_dbModel.reservation_fkboatid" ManuallyRouted="false" />
+        <AssociationConnector Association="acsc384_dbModel.cust_reservations_fkbookingid" ManuallyRouted="false" />
+        <AssociationConnector Association="acsc384_dbModel.cust_reservations_fkcustomerid" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
